@@ -13,9 +13,9 @@ import {
 } from '@jsonforms/material-renderers';
 import { JsonFormsReduxContext } from '@jsonforms/react';
 import { composeWithDevTools } from "redux-devtools-extension";
-import FileUpload from './FileUpload';
 import fileUploadTester from './fileUploadTester';
-
+import FileUploadContainer from './FileUploadContainer';
+import fileUploadReducer from "./fileUploadReducer";
 const schema = {
   "type": "object",
   "properties": {
@@ -88,7 +88,7 @@ const data = {
 };
 
 const store = createStore(
-  combineReducers({ jsonforms: jsonformsReducer() }),
+  combineReducers({ jsonforms: jsonformsReducer(), fileUploadReducer }),
   {
     jsonforms: {
       cells: materialCells,
@@ -99,7 +99,7 @@ const store = createStore(
 );
 
 store.dispatch(Actions.init(data, schema, uischema));
-store.dispatch(Actions.registerRenderer(fileUploadTester, FileUpload));
+store.dispatch(Actions.registerRenderer(fileUploadTester, FileUploadContainer));
 
 ReactDOM.render(
   <React.StrictMode>
