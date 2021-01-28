@@ -83,7 +83,8 @@ const uischema = {
 const data = {
   crop: {
     cropType: "Rice",
-    size: 10
+    size: 10,
+    picture:[]
   }
 };
 
