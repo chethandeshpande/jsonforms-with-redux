@@ -1,5 +1,7 @@
 import React from 'react';
-import { JsonFormsDispatch } from '@jsonforms/react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import ProposalContainer from './ProposalContainer';
+import DemoContainer from './DemoContainer';
 // other imports...
 
 const onClick = (data) => {
@@ -8,10 +10,15 @@ const onClick = (data) => {
   }
 }
 
-export default ({ data, schema, uishema, errors }) => (
-  <div>
-    {/* other markup... */}
-    <JsonFormsDispatch />
-    <button type="button" onClick={onClick(data)}>Save Proposal</button>
-  </div>
+export default () => (
+  <Router>
+    <Switch>
+          <Route path="/proposal">
+            <ProposalContainer />
+          </Route>
+          <Route path="/demo">
+            <DemoContainer />
+          </Route>
+        </Switch>
+  </Router>
 )
