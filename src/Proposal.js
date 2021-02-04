@@ -43,11 +43,15 @@ const handleChange = ({schema, data, uischema, updateSchema, updateUISchema, upd
   updateData(path, () => ({...data, updatedData}))
 }
 
+const handleCropChange = (uiSchema, {data}) => {
+  console.log(uiSchema, ">>>>>>>>>>")
+}
+
 export default (props) => {
   return (
       <div>
         <JsonFormsDispatch schema={props.schema} uischema={props.uischema} data={props.data}
-                           // onChange={handleChange.bind(null, props)}
+                           onChange={(e)=>handleCropChange(e, props)}
                            // onPress = {handleChange.bind(null, props)}
         />
         <button type="button" onClick={handleChange.bind(null, props)}>Save Proposal</button>

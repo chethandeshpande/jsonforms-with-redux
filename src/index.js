@@ -27,7 +27,7 @@ import Proposal from "./Proposal";
 const schema ={
   "type": "object",
   "properties": {
-    "comments": {
+    "measurements": {
       "type": "array",
       "items": {
         "type": "object",
@@ -35,22 +35,19 @@ const schema ={
           "name": {
             "type": "string",
           },
-          "unitType": {
-            "type": "string",
-            "enum": [
-             "string",
-             "integer"
-            ]
-          },
         }
       }
     },
 
     "feedback":{
       type: "string",
-    }
+    },
+    "field": {
+      "type": "string",
+    },
   }
-};
+}
+
 
 
 const uischema = {
@@ -58,17 +55,95 @@ const uischema = {
   "elements": [
     {
       "type": "Control",
-      "scope": "#/properties/comments"
+      "scope": "#/properties/field",
+      "rule": {
+        "effect": "HIDE",
+        "condition": {
+          "scope": "#/properties/field",
+          "schema": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/measurements",
+      "rule": {
+        "effect": "DISABLE",
+        "condition": {
+          "scope": "#/properties/field",
+          "schema": {
+            "const": true
+          }
+        }
+      }
     },
     {
       "type": "Control",
       "scope": "#/properties/feedback"
     }
-  ]
+  ],
+
+}
+
+
+const cropSchema={
+  "type": "object",
+  "properties": {
+
+    "crop":{
+      type: "string",
+      enum: [
+        "Potato",
+        "sugarcane",
+        "rice"
+      ]
+    },
+    measurements: {
+      type: "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+          },
+        }
+      }
+    }
+  }
+};
+
+const uiSchemaCrop = {
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "HorizontalLayout",
+      elements: [
+        {
+          "type": "Control",
+          "scope": "#/properties/crop",
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/measurements",
+        }
+      ]
+    }]
 }
 
 const data = {
-  "comments": []
+  "field": true,
+  "measurements": [{
+    name: "count of grains"
+  },
+    {
+    name: "weight of grains"
+  }]
+}
+
+const cropData = {
+
 }
 
 const store = createStore(
@@ -82,7 +157,7 @@ const store = createStore(
   composeWithDevTools()
 );
 
-store.dispatch(Actions.init(data, schema, uischema));
+store.dispatch(Actions.init(cropData, cropSchema, uiSchemaCrop));
 store.dispatch(Actions.registerRenderer(fileUploadTester, FileUploadContainer));
 store.dispatch(Actions.registerRenderer(addTreatmentTester, AddTreatmentContainer));
 store.dispatch(Actions.registerRenderer(ProposalTester, ProposalContainer));
