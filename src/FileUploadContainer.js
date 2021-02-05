@@ -6,7 +6,7 @@ const mapDispatchToProps = (dispatch) => ({
     addSize: () => dispatch({type: "ADD_SIZE"}),
     updateUISchema: (data) => dispatch(Actions.setUISchema(data)),
     updateSchema: (data) => dispatch(Actions.setSchema(data)),
-     updateData: (path,data) => dispatch(Actions.update(path,data))
+    updateData: (path,data) => dispatch(Actions.update(path,data))
 })
 
 const mapStateToProps  = (state) =>{

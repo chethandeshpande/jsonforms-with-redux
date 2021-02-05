@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './AppContainer';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { combineReducers, createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -87,10 +87,23 @@ const uischema = {
 
 }
 
+const data = {
+  "field": true,
+  "measurements": [{
+    name: "count of grains"
+  },
+    {
+      name: "weight of grains"
+    }]
+}
+
 
 const cropSchema={
   "type": "object",
   "properties": {
+    field: {
+      type: "string"
+    },
 
     "crop":{
       type: "string",
@@ -118,32 +131,45 @@ const uiSchemaCrop = {
   "type": "VerticalLayout",
   "elements": [
     {
+      "type": "Control",
+      "scope": "#/properties/field",
+      "rule": {
+        "effect": "HIDE",
+        "condition": {
+          "scope": "#/properties/field",
+          "schema": {
+            "const": true
+          }
+        }
+      }
+    },
+    {
       "type": "HorizontalLayout",
       elements: [
         {
           "type": "Control",
           "scope": "#/properties/crop",
+
         },
         {
           "type": "Control",
           "scope": "#/properties/measurements",
+          "rule": {
+            "effect": "DISABLE",
+            "condition": {
+              "scope": "#/properties/field",
+              "schema": {
+                "const": true
+              }
+            }
+          }
         }
       ]
     }]
 }
 
-const data = {
-  "field": true,
-  "measurements": [{
-    name: "count of grains"
-  },
-    {
-    name: "weight of grains"
-  }]
-}
-
 const cropData = {
-
+  "field": true,
 }
 
 const store = createStore(
@@ -158,9 +184,9 @@ const store = createStore(
 );
 
 store.dispatch(Actions.init(cropData, cropSchema, uiSchemaCrop));
-store.dispatch(Actions.registerRenderer(fileUploadTester, FileUploadContainer));
-store.dispatch(Actions.registerRenderer(addTreatmentTester, AddTreatmentContainer));
-store.dispatch(Actions.registerRenderer(ProposalTester, ProposalContainer));
+// store.dispatch(Actions.registerRenderer(fileUploadTester, FileUploadContainer));
+// store.dispatch(Actions.registerRenderer(addTreatmentTester, AddTreatmentContainer));
+// store.dispatch(Actions.registerRenderer(ProposalTester, ProposalContainer));
 
 ReactDOM.render(
   <React.StrictMode>

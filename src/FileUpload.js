@@ -2,8 +2,9 @@ import React from 'react';
 import { withJsonFormsControlProps } from '@jsonforms/react';
 import {Actions} from "@jsonforms/core";
 
-export default withJsonFormsControlProps(({ data, handleChange, path, updateUISchema,uischema1,
+export default withJsonFormsControlProps(({ uischema, data, handleChange, path, updateUISchema,uischema1,
 											  updateData,updateSchema,schema1 }) => {
+	console.log(uischema)
 	function updateState() {
 		console.log("coming====");
 		schema1.properties.crop.properties.copiedSize = {

@@ -1,5 +1,10 @@
 import React from 'react';
-import { JsonFormsDispatch } from '@jsonforms/react';
+import {
+  JsonFormsDispatch,
+  withJsonFormsContext,
+  withJsonFormsControlProps,
+  withJsonFormsLayoutProps
+} from '@jsonforms/react';
 // other imports...
 
 const onClick = (data) => {
@@ -8,10 +13,15 @@ const onClick = (data) => {
   }
 }
 
-export default ({ data, schema, uishema, errors }) => (
-  <div>
-    {/* other markup... */}
-    <JsonFormsDispatch />
-    <button type="button" onClick={onClick(data)}>Save Proposal</button>
-  </div>
+export default withJsonFormsContext((props) => {
+      return (
+          <div>
+            {/* other markup... */}
+            {/*<JsonFormsDispatch/>*/}
+            {/*<button type="button" onClick={onClick(data)}>Save App</button>*/}
+            hello
+          </div>
+      )
+
+    }
 )

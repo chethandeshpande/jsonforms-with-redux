@@ -1,5 +1,10 @@
 import React from 'react';
-import { JsonFormsDispatch } from '@jsonforms/react';
+import {
+  JsonFormsDispatch,
+  withJsonFormsContext,
+  withJsonFormsControlProps,
+  withJsonFormsLayoutProps
+} from '@jsonforms/react';
 import {Actions, jsonformsReducer, update} from '@jsonforms/core';
 import shadows from "@material-ui/core/styles/shadows";
 
@@ -43,18 +48,28 @@ const handleChange = ({schema, data, uischema, updateSchema, updateUISchema, upd
   updateData(path, () => ({...data, updatedData}))
 }
 
-const handleCropChange = (uiSchema, {data}) => {
-  console.log(uiSchema, ">>>>>>>>>>")
+let crop = "";
+
+const measurmentsPerCrop =
+  {
+    Potato: [{name: "weight of potato"}, {name: "length of potato"}],
+    sugarcane: [{name: "length of sugarcane"}, {name: "width of sugarcane"}]
+  }
+
+const handleCropChange = (updatedUiSchema, {updateData}) => {
+  if (updatedUiSchema.data.crop && crop !== updatedUiSchema.data.crop) {
+    updateData("measurements", () => measurmentsPerCrop[updatedUiSchema.data.crop])
+    crop = updatedUiSchema.data.crop;
+  }
 }
 
-export default (props) => {
+export default withJsonFormsContext(({props}) => {
   return (
       <div>
         <JsonFormsDispatch schema={props.schema} uischema={props.uischema} data={props.data}
-                           onChange={(e)=>handleCropChange(e, props)}
-                           // onPress = {handleChange.bind(null, props)}
+                           onChange={(e) => handleCropChange(e, props)}
         />
         <button type="button" onClick={handleChange.bind(null, props)}>Save Proposal</button>
       </div>
   )
-}
+})
